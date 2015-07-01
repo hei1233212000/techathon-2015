@@ -1,0 +1,280 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>teachathon.2015</groupId>
+    <artifactId>web-app</artifactId>
+    <packaging>war</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>web-app</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <jdk.version>1.8</jdk.version>
+
+        <!-- spring -->
+        <spring.version>4.1.1.RELEASE</spring.version>
+
+        <!-- jackson-databind -->
+        <jackson-databind.version>2.3.2</jackson-databind.version>
+
+        <!-- Entity -->
+        <ebean.version>4.5.1</ebean.version>
+
+        <!-- utils -->
+        <guava.version>18.0</guava.version>
+
+        <!-- commons-fileupload -->
+        <commons-fileupload.version>1.3.1</commons-fileupload.version>
+
+        <!-- aspectj -->
+        <aspectj.version>1.8.2</aspectj.version>
+
+        <!-- sitemesh -->
+        <sitemesh.version>3.0.0</sitemesh.version>
+
+        <!-- JSR 107 -->
+        <jcache.version>1.0.0</jcache.version>
+
+        <!-- JSR-330 -->
+        <javax.inject.version>1</javax.inject.version>
+
+        <!-- servlet -->
+        <servlet.version>3.1.0</servlet.version>
+
+        <!-- logger -->
+        <logback.version>1.1.2</logback.version>
+        <slf4j.version>1.7.7</slf4j.version>
+
+        <!-- h2 -->
+        <h2.version>1.4.187</h2.version>
+
+        <!-- testing -->
+        <junit.version>4.11</junit.version>
+        <powermock.version>1.5.6</powermock.version>
+
+        <!-- maven plugin -->
+        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+        <maven-war-plugin.version>2.5</maven-war-plugin.version>
+        <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
+        <aspectj-maven-plugin.version>1.7</aspectj-maven-plugin.version>
+        <heroku-maven-plugin.version>0.4.3</heroku-maven-plugin.version>
+
+        <!-- see: http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin -->
+        <jetty.version>9.2.1.v20140609</jetty.version>
+    </properties>
+
+    <dependencies>
+        <!-- spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- enable spring json feature -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
+        </dependency>
+
+        <!-- JSR-330 -->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>${javax.inject.version}</version>
+        </dependency>
+
+        <!-- Ebean -->
+        <dependency>
+            <groupId>org.avaje.ebeanorm</groupId>
+            <artifactId>avaje-ebeanorm</artifactId>
+            <version>${ebean.version}</version>
+        </dependency>
+
+        <!-- guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
+        <!-- logger -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <!-- h2 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+        </dependency>
+
+        <!-- provided -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.avaje.ebeanorm</groupId>
+            <artifactId>avaje-ebeanorm-agent</artifactId>
+            <version>${ebean.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven-war-plugin.version}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>${aspectj-maven-plugin.version}</version>
+                <configuration>
+                    <showWeaveInfo>true</showWeaveInfo>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <Xlint>ignore</Xlint>
+                    <complianceLevel>${jdk.version}</complianceLevel>
+                    <encoding>UTF-8</encoding>
+                    <verbose>false</verbose>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>org.springframework</groupId>
+                            <artifactId>spring-aspects</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjrt</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjtools</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>${tomcat7-maven-plugin.version}</version>
+                <configuration>
+                    <path>/</path>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>com.heroku.sdk</groupId>
+                <artifactId>heroku-maven-plugin</artifactId>
+                <version>${heroku-maven-plugin.version}</version>
+            </plugin>
+            <!-- Enhance the entity beans for Ebean -->
+            <plugin>
+                <groupId>org.avaje.ebeanorm</groupId>
+                <artifactId>avaje-ebeanorm-mavenenhancer</artifactId>
+                <version>${ebean.version}</version>
+                <configuration>
+                    <packages>com.techathon.model.entity.**</packages>
+                    <transformArgs>debug=1</transformArgs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>main</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>enhance</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
