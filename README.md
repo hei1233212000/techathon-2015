@@ -1,1 +1,1 @@
-# techathon-2015
+# Techathon 2015
