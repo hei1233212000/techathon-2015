@@ -5,6 +5,8 @@ import com.avaje.ebean.EbeanServerFactory;
 import com.avaje.ebean.config.AutofetchConfig;
 import com.avaje.ebean.config.AutofetchMode;
 import com.avaje.ebean.config.ServerConfig;
+import com.techathon.model.entity.Exercise;
+import com.techathon.model.entity.ExerciseRequest;
 import com.techathon.model.entity.Sample;
 import org.h2.jdbcx.JdbcDataSource;
 import org.springframework.context.annotation.AdviceMode;
@@ -21,7 +23,7 @@ public class DataSourceConfig {
 	@Bean
 	public EbeanServer getDefaultEbeanServer() {
 		ServerConfig config = EbeanServerConfig();
-		Arrays.asList(Sample.class).forEach(config::addClass);
+		Arrays.asList(Sample.class, ExerciseRequest.class, Exercise.class).forEach(config::addClass);
 		return EbeanServerFactory.create(config);
 	}
 
