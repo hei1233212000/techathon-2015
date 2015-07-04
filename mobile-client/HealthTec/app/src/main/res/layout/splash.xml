@@ -9,7 +9,7 @@ tools:context=".SplashActivity">
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/logo1"
+    android:background="@drawable/logo2"
     >
 
 </LinearLayout>
