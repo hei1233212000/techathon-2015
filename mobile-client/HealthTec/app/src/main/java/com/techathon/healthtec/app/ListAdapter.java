@@ -1,15 +1,16 @@
 package com.techathon.healthtec.app;
 
-
-import android.widget.BaseAdapter;
 import android.app.Activity;
-import java.util.ArrayList;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.view.View.OnClickListener;
-import android.util.Log;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * Created by NichChau on 4/7/15.
@@ -43,7 +44,8 @@ public class ListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //Touch on view handle
                 Log.d("", "Touched row "+position);
-               
+                Intent nextScreen = new Intent(activity.getApplicationContext(), ExerciseStartActivity.class);
+                activity.startActivity(nextScreen);
             }
 
         });
