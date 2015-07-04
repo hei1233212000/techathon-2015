@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViewById(R.id.my_button).setOnClickListener(this);
+        //findViewById(R.id.my_button).setOnClickListener(this);
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
         String[] values = new String[]{"Android List View",
@@ -64,6 +64,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         ListView lv = (ListView) findViewById(R.id.list);
         ListAdapter adapter = new ListAdapter(this, mStrings);
         lv.setAdapter(adapter);
+
+
+
         // Define a new Adapter
         // First parameter - Context
         // Second parameter - Layout for the row
@@ -74,11 +77,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         //       android.R.layout.simple_list_item_1, android.R.id.text1, values);
 
         // Assign adapter to ListView
-        listView.setAdapter(adapter);
+      //  listView.setAdapter(adapter);
         // listView.setBackground(R.drawable.selector);
 
         // ListView Item Click Listener
-        listView.setOnItemClickListener(new OnItemClickListener() {
+       /* listView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -97,20 +100,20 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
             }
 
-        });
+        });*/
     }
 
     public void onClick(View arg0) {
-        Button b = (Button) findViewById(R.id.my_button);
+       // Button b = (Button) findViewById(R.id.my_button);
 
 
-        b.setClickable(false);
+       // b.setClickable(false);
         new RestfulGetActivity() {
             @Override
             public void onPostExecute(String results) {
                 if (results != null) {
-                    EditText et = (EditText) findViewById(R.id.my_edit);
-                    et.setText(results);
+                  //  EditText et = (EditText) findViewById(R.id.my_edit);
+                  //  et.setText(results);
                 }
             }
         }.execute("https://api-us.clusterpoint.com/100390/Sportiform", "ken.poon@dotcus.com", "12345");
