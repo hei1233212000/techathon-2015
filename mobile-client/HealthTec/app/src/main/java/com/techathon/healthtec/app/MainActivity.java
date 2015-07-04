@@ -7,10 +7,8 @@
  */
 package com.techathon.healthtec.app;
 
+import android.widget.*;
 import android.os.AsyncTask;
-import android.widget.ListView;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
 import android.os.Bundle;
 import android.util.Base64;
 import android.support.v7.app.ActionBarActivity;
