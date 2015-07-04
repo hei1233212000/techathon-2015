@@ -111,7 +111,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         Log.e("MY CURRENT LOCATION", "Start Location Log");
         LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         MyCurrentLocationListener locationListener = new MyCurrentLocationListener();
+        //check by gps
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        //check by network
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         Log.e("MY CURRENT LOCATION", "End Location Log");
     }
