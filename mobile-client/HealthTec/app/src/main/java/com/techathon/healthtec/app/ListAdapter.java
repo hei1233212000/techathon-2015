@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.util.Log;
+
 /**
  * Created by NichChau on 4/7/15.
  */
@@ -42,6 +43,7 @@ public class ListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //Touch on view handle
                 Log.d("", "Touched row "+position);
+               
             }
 
         });
