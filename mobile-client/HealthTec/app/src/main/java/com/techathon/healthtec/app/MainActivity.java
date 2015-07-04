@@ -7,6 +7,12 @@
  */
 package com.techathon.healthtec.app;
 
+import android.content.Context;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.util.Log;
 import android.widget.*;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,6 +26,7 @@ import android.widget.EditText;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.techathon.healthtec.location.MyCurrentLocationListener;
 import com.techathon.healthtec.util.RestfulGetActivity;
 
 import org.apache.http.HttpEntity;
@@ -101,6 +108,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             }
 
         });*/
+        Log.e("MY CURRENT LOCATION", "Start Location Log");
+        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        MyCurrentLocationListener locationListener = new MyCurrentLocationListener();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        Log.e("MY CURRENT LOCATION", "End Location Log");
     }
 
     public void onClick(View arg0) {
