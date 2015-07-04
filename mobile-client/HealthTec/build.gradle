@@ -1,0 +1,27 @@
+/*
+ * (c) 2015 by Harry Chan
+ * All rights reserved. No part of this document may be reproduced or
+ * transmitted in any form or by any means, electronic, mechanical,
+ * photocopying, recording, or otherwise, without prior written
+ * permission of Harry Chan.
+ */
+
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.1.1'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
