@@ -29,6 +29,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import java.util.ArrayList;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,14 +53,24 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 "List View Array Adapter",
                 "Android Example List View"
         };
+
+        ArrayList<String> mStrings = new ArrayList<String>();
+        mStrings.add("Item 1");
+        mStrings.add("Item 2");
+        mStrings.add("Item 3");
+        mStrings.add("Item 4");
+
+        ListView lv = (ListView) findViewById(R.id.list);
+        ListAdapter adapter = new ListAdapter(this, mStrings);
+        lv.setAdapter(adapter);
         // Define a new Adapter
         // First parameter - Context
         // Second parameter - Layout for the row
         // Third parameter - ID of the TextView to which the data is written
         // Forth - the Array of data
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+       // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+         //       android.R.layout.simple_list_item_1, android.R.id.text1, values);
 
         // Assign adapter to ListView
         listView.setAdapter(adapter);
