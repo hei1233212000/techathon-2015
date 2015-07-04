@@ -8,37 +8,142 @@
 package com.techathon.healthtec.app;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
-public class MainActivity extends Activity {
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-	}
+import java.io.IOException;
+import java.io.InputStream;
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_main, menu);
-		return true;
-	}
+public class MainActivity extends Activity implements View.OnClickListener {
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        findViewById(R.id.my_button).setOnClickListener(this);
+    }
 
-		//noinspection SimplifiableIfStatement
-		if (id == R.id.action_settings) {
-			return true;
-		}
+    public void onClick(View arg0) {
+        Button b = (Button) findViewById(R.id.my_button);
 
-		return super.onOptionsItemSelected(item);
-	}
+
+        b.setClickable(false);
+        new RestfulActivity().execute();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private class RestfulActivity extends AsyncTask<Void, Void, String> {
+        private String url;
+        private String username;
+        private String password;
+
+        public String getUrl() {
+            return this.url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getUsername() {
+            return this.username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getPassword() {
+            return this.password;
+        }
+
+        public void setPassowrd(String password) {
+            this.password = password;
+        }
+
+
+        protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
+            InputStream in = entity.getContent();
+
+            StringBuffer out = new StringBuffer();
+            int n = 1;
+            while (n > 0) {
+                byte[] b = new byte[4096];
+                n = in.read(b);
+                if (n > 0) out.append(new String(b, 0, n));
+            }
+            return out.toString();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            url = "https://api-us.clusterpoint.com/100390/Sportiform";
+            username = "ken.poon@dotcus.com";
+            password = "12345";
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpContext localContext = new BasicHttpContext();
+            HttpGet httpGet = new HttpGet(url);
+            String text = null;
+            try {
+                String credentials = username + ":" + password;
+                String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+                if(username != null && !username.equals("") && password != null) {
+                    httpGet.addHeader("Authorization", "Basic " + base64EncodedCredentials);
+                }
+                HttpResponse response = httpClient.execute(httpGet, localContext);
+                HttpEntity entity = response.getEntity();
+                text = getASCIIContentFromEntity(entity);
+            } catch (Exception e) {
+                return e.getLocalizedMessage();
+            }
+
+
+            return text;
+        }
+
+
+        protected void onPostExecute(String results) {
+            if (results != null) {
+                EditText et = (EditText) findViewById(R.id.my_edit);
+                et.setText(results);
+            }
+        }
+
+    }
 }
