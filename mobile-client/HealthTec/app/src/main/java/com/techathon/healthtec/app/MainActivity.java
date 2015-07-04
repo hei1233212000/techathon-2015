@@ -7,36 +7,33 @@
  */
 package com.techathon.healthtec.app;
 
-import android.widget.*;
-import android.os.AsyncTask;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Base64;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.techathon.healthtec.util.RestfulGetActivity;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
-
 import java.util.ArrayList;
-
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     ListView listView;
+    private JobInfo.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +41,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         findViewById(R.id.my_button).setOnClickListener(this);
         // Get ListView object from xml
+        blackgroundJob();
         listView = (ListView) findViewById(R.id.list);
         String[] values = new String[]{"Android List View",
                 "Adapter implementation",
@@ -136,5 +134,30 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void blackgroundJob(){
+        NotificationManager NM;
+        NM=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notify=new Notification(android.R.drawable.stat_notify_more,"Testing Titile",System.currentTimeMillis());
+        PendingIntent pending=PendingIntent.getActivity(getApplicationContext(), 0, new Intent(),0);
+        notify.setLatestEventInfo(getApplicationContext(), "Testing Subject", "Testing Body",pending);
+
+        Timer timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            synchronized public void run() {
+                int i = 0;
+                NotificationManager NM;
+                NM=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+                Notification notify=new Notification(android.R.drawable.stat_notify_more,"Testing Titile",System.currentTimeMillis());
+                PendingIntent pending=PendingIntent.getActivity(getApplicationContext(), 0, new Intent(),0);
+                notify.setLatestEventInfo(getApplicationContext(), "Testing Subject", "Testing Body", pending);
+                NM.notify(i, notify);
+                i++;
+            }
+
+        }, 5000, 5000);
     }
 }
