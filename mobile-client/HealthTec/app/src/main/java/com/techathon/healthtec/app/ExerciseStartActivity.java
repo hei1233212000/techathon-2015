@@ -12,11 +12,15 @@ import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import java.text.DecimalFormat;
 
 public class ExerciseStartActivity extends ActionBarActivity {
 	private Long startTime;
 	private Handler handler = new Handler();
+	ImageButton playButton,stopButton;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -24,6 +28,8 @@ public class ExerciseStartActivity extends ActionBarActivity {
 		startTime = System.currentTimeMillis();
 		handler.removeCallbacks(updateTimer);
 		handler.postDelayed(updateTimer, 1000);
+		playButton = (ImageButton) findViewById(R.id.play_button);
+		stopButton = (ImageButton) findViewById(R.id.stop_button);
 	}
 
 	@Override
@@ -50,11 +56,13 @@ public class ExerciseStartActivity extends ActionBarActivity {
 
 	private Runnable updateTimer = new Runnable() {
 		public void run(){
-			final TextView time = (TextView) findViewById(R.id.text);
+			final TextView time = (TextView) findViewById(R.id.textView);
 			Long spentTime = System.currentTimeMillis() - startTime;
-			Long hour = (spentTime/1000);
-			Long mins = (spentTime/1000)/60;
-			Long seconds = (spentTime/1000) % 60;
+			DecimalFormat formatter = new DecimalFormat("##");
+			formatter.applyPattern("00");
+			String hour = formatter.format(spentTime/1000);
+			String mins = formatter.format((spentTime/1000)/60);
+			String seconds = formatter.format(spentTime/1000 % 60);
 			time.setText(hour+":"+mins+":"+seconds);
 			handler.postDelayed(this, 1000);;
 		}
