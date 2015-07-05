@@ -60,7 +60,7 @@ public class ExerciseStartActivity extends ActionBarActivity {
 			Long spentTime = System.currentTimeMillis() - startTime;
 			DecimalFormat formatter = new DecimalFormat("##");
 			formatter.applyPattern("00");
-			String hour = formatter.format(spentTime/1000);
+			String hour = formatter.format(spentTime/1000 % (60 * 60));
 			String mins = formatter.format((spentTime/1000)/60);
 			String seconds = formatter.format(spentTime/1000 % 60);
 			time.setText(hour+":"+mins+":"+seconds);
