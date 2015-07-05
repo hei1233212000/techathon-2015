@@ -32,7 +32,6 @@
         </activity>
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <permission
         android:name="package.name.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
