@@ -11,13 +11,18 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.*;
 
 public class ExerciseStartActivity extends ActionBarActivity {
+	ImageButton playButton,stopButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_exercise_start);
+		playButton =(ImageButton)findViewById(R.id.play_button);
+		stopButton =(ImageButton)findViewById(R.id.stop_button);
+
 	}
 
 	@Override

@@ -10,53 +10,25 @@ package com.techathon.healthtec.app;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.job.JobInfo;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Context;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.util.Log;
-import android.widget.*;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Base64;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import com.techathon.healthtec.location.MyCurrentLocationListener;
 import com.techathon.healthtec.util.RestfulGetActivity;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     ListView listView;
-    private JobInfo.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +100,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         //check by gps
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         //check by network
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         Log.e("MY CURRENT LOCATION", "End Location Log");
     }
 
@@ -137,15 +109,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 
        // b.setClickable(false);
-        new RestfulGetActivity() {
+      /*  new RestfulGetActivity() {
             @Override
             public void onPostExecute(String results) {
                 if (results != null) {
+                    log.e("Here Result:",results);
                   //  EditText et = (EditText) findViewById(R.id.my_edit);
                   //  et.setText(results);
                 }
             }
-        }.execute("https://api-us.clusterpoint.com/100390/Sportiform", "ken.poon@dotcus.com", "12345");
+        }.execute("https://api-us.clusterpoint.com/100390/_retrieve.json", "ken.poon@dotcus.com", "12345");*/
     }
 
     @Override
