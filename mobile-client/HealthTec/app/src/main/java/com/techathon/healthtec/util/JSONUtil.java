@@ -1,9 +1,13 @@
 package com.techathon.healthtec.util;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+import com.techathon.healthtec.model.Exercise;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Paptimus on 4/7/2015.
@@ -14,15 +18,15 @@ public class JSONUtil {
         return gson.toJson(object);
     }
 
-    public Object JSONToObject(String json, String className) {
-        JsonElement jsonElement = (JsonElement) new JsonParser().parse(json);
-        Gson gson = new Gson();
-        try {
-            Object object = gson.fromJson(jsonElement, Class.forName(className));
-            return object;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static List<Exercise> JSONToObject(String json) {
+        Type listType = new TypeToken<ArrayList<Exercise>>() {}.getType();
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+            public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws
+                    JsonParseException {
+                return new Date(json.getAsJsonPrimitive().getAsLong());
+            }
+        });
+        return builder.create().fromJson(new JsonParser().parse(json), listType);
     }
 }
