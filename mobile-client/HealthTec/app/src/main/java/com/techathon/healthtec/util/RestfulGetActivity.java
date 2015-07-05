@@ -2,10 +2,7 @@ package com.techathon.healthtec.util;
 
 import android.os.AsyncTask;
 import android.util.Base64;
-import android.widget.EditText;
-
-import com.techathon.healthtec.app.R;
-
+import android.util.Log;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -87,6 +84,7 @@ import java.io.InputStream;
             HttpResponse response = httpClient.execute(httpGet, localContext);
             HttpEntity entity = response.getEntity();
             text = getASCIIContentFromEntity(entity);
+            Log.e("GET: exercises", text);
         } catch (Exception e) {
             return e.getLocalizedMessage();
         }

@@ -10,10 +10,8 @@ package com.techathon.healthtec.app;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.job.JobInfo;
 import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -21,105 +19,54 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import com.techathon.healthtec.location.MyCurrentLocationListener;
+import com.techathon.healthtec.model.Exercise;
+import com.techathon.healthtec.util.JSONUtil;
 import com.techathon.healthtec.util.RestfulGetActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     ListView listView;
-    private JobInfo.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //findViewById(R.id.my_button).setOnClickListener(this);
-        // Get ListView object from xml
+        // set the background job for retrieving new exercise request
         blackgroundJob();
-        listView = (ListView) findViewById(R.id.list);
-        String[] values = new String[]{"Android List View",
-                "Adapter implementation",
-                "Simple List View In Android",
-                "Create List View Android",
-                "Android Example",
-                "List View Source Code",
-                "List View Array Adapter",
-                "Android Example List View"
-        };
-
-        ArrayList<String> mStrings = new ArrayList<String>();
-        mStrings.add("Item 1");
-        mStrings.add("Item 2");
-        mStrings.add("Item 3");
-        mStrings.add("Item 4");
-
-        ListView lv = (ListView) findViewById(R.id.list);
-        ListAdapter adapter = new ListAdapter(this, mStrings);
-        lv.setAdapter(adapter);
-
-
-
-        // Define a new Adapter
-        // First parameter - Context
-        // Second parameter - Layout for the row
-        // Third parameter - ID of the TextView to which the data is written
-        // Forth - the Array of data
-
-        // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-        //       android.R.layout.simple_list_item_1, android.R.id.text1, values);
-
-        // Assign adapter to ListView
-      //  listView.setAdapter(adapter);
-        // listView.setBackground(R.drawable.selector);
-
-        // ListView Item Click Listener
-       /* listView.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                // ListView Clicked item index
-                int itemPosition = position;
-
-                // ListView Clicked item value
-                String itemValue = (String) listView.getItemAtPosition(position);
-
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
-                        .show();
-
-            }
-
-        });*/
-        Log.e("MY CURRENT LOCATION", "Start Location Log");
-        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        MyCurrentLocationListener locationListener = new MyCurrentLocationListener();
-        //check by gps
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        //check by network
-        //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        Log.e("MY CURRENT LOCATION", "End Location Log");
-    }
-
-    public void onClick(View arg0) {
-       // Button b = (Button) findViewById(R.id.my_button);
-
-
-       // b.setClickable(false);
+        // get the exercises
+        final ArrayList<String> mStrings = new ArrayList<String>();
+        final MainActivity thisActivity = this;
         new RestfulGetActivity() {
             @Override
             public void onPostExecute(String results) {
+                Log.e("results = ", results);
                 if (results != null) {
-                  //  EditText et = (EditText) findViewById(R.id.my_edit);
-                  //  et.setText(results);
+                    List<Exercise> exercises = JSONUtil.JSONToObject(results);
+                    Log.e("list = ", exercises.toString());
+                    Log.e("list size = ", "" + exercises.size());
+                    Log.e("element type = ", "" + exercises.get(0).getClass());
+                    for (Exercise exercise : exercises) {
+                        mStrings.add(String.format("%s %s", new SimpleDateFormat("MMM dd").format(
+                                exercise.getDate()), "Running"));
+                    }
+                    // list the exercise
+                    thisActivity.listView = (ListView) thisActivity.findViewById(R.id.list);
+
+                    ListView lv = (ListView) thisActivity.findViewById(R.id.list);
+                    ListAdapter adapter = new ListAdapter(thisActivity, mStrings);
+                    lv.setAdapter(adapter);
                 }
             }
-        }.execute("https://api-us.clusterpoint.com/100390/Sportiform", "ken.poon@dotcus.com", "12345");
+        }.execute("https://healthtec.herokuapp.com/api/v1/exercises/?client-id=1", "ken.poon@dotcus.com", "12345");
+    }
+
+    public void onClick(View arg0) {
+
     }
 
     @Override
