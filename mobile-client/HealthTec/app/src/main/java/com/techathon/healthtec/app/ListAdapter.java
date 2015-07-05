@@ -40,13 +40,14 @@ public class ListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder)convertView.getTag();
         }
-
+        final Exercise currentExercise = exercises.get(position);
         convertView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Touch on view handle
                 Log.d("", "Touched row "+position);
                 Intent nextScreen = new Intent(activity.getApplicationContext(), ExerciseStartActivity.class);
+                nextScreen.putExtra(ExerciseStartActivity.EXTRA_CURRENT_EXERCISE, currentExercise);
                 activity.startActivity(nextScreen);
             }
 
@@ -55,7 +56,7 @@ public class ListAdapter extends BaseAdapter {
         //customizing view
         holder.textView = (TextView)convertView.findViewById(R.id.my_textview);
         String text = String.format("%s %s", new SimpleDateFormat("MMM dd").format(
-                exercises.get(position).getDate()), "Running");
+                currentExercise.getDate()), "Running");
         holder.textView.setText(text);
 
         return convertView;

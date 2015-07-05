@@ -9,17 +9,23 @@ package com.techathon.healthtec.app;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.*;
+import com.techathon.healthtec.model.Exercise;
 
 public class ExerciseStartActivity extends ActionBarActivity {
+	public static final String EXTRA_CURRENT_EXERCISE = "currentExercise";
 	ImageButton playButton,stopButton;
+	Exercise currentExercise;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_exercise_start);
+		currentExercise = (Exercise) getIntent().getExtras().get(EXTRA_CURRENT_EXERCISE);
+		Log.e("currentExercise", currentExercise.toString());
 		playButton =(ImageButton)findViewById(R.id.play_button);
 		stopButton =(ImageButton)findViewById(R.id.stop_button);
 
