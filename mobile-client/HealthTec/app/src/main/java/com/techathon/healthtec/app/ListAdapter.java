@@ -9,8 +9,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import com.techathon.healthtec.model.Exercise;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * Created by NichChau on 4/7/15.
@@ -18,12 +20,12 @@ import java.util.ArrayList;
 public class ListAdapter extends BaseAdapter {
 
     public Activity activity;
-    ArrayList<String> data = new ArrayList<String>();
+    List<Exercise> exercises;
     private static LayoutInflater inflater = null;
 
-    public ListAdapter(Activity a, ArrayList<String> d) {
+    public ListAdapter(Activity a, List<Exercise> exercises) {
         activity = a;
-        data = d;
+        this.exercises = exercises;
         inflater = LayoutInflater.from(activity);
     }
 
@@ -38,13 +40,14 @@ public class ListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder)convertView.getTag();
         }
-
+        final Exercise currentExercise = exercises.get(position);
         convertView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Touch on view handle
                 Log.d("", "Touched row "+position);
                 Intent nextScreen = new Intent(activity.getApplicationContext(), ExerciseStartActivity.class);
+                nextScreen.putExtra(ExerciseStartActivity.EXTRA_CURRENT_EXERCISE, currentExercise);
                 activity.startActivity(nextScreen);
             }
 
@@ -52,7 +55,9 @@ public class ListAdapter extends BaseAdapter {
 
         //customizing view
         holder.textView = (TextView)convertView.findViewById(R.id.my_textview);
-        holder.textView.setText(data.get(position));
+        String text = String.format("%s %s", new SimpleDateFormat("MMM dd").format(
+                currentExercise.getDate()), "Running");
+        holder.textView.setText(text);
 
         return convertView;
     }
@@ -62,7 +67,7 @@ public class ListAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return data.size();
+        return exercises.size();
     }
     @Override
     public Object getItem(int position) {

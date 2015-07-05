@@ -24,8 +24,6 @@ import com.techathon.healthtec.model.Exercise;
 import com.techathon.healthtec.util.JSONUtil;
 import com.techathon.healthtec.util.RestfulGetActivity;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,7 +39,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         // set the background job for retrieving new exercise request
         blackgroundJob();
         // get the exercises
-        final ArrayList<String> mStrings = new ArrayList<String>();
         final MainActivity thisActivity = this;
         new RestfulGetActivity() {
             @Override
@@ -49,19 +46,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 Log.e("results = ", results);
                 if (results != null) {
                     List<Exercise> exercises = JSONUtil.JSONToObject(results);
-                    Log.e("list = ", exercises.toString());
-                    Log.e("list size = ", "" + exercises.size());
-                    Log.e("element type = ", "" + exercises.get(0).getClass());
-                    for (Exercise exercise : exercises) {
-                        mStrings.add(String.format("%s %s", new SimpleDateFormat("MMM dd").format(
-                                exercise.getDate()), "Running"));
-                    }
                     // list the exercise
                     thisActivity.listView = (ListView) thisActivity.findViewById(R.id.list);
 
                     ListView lv = (ListView) thisActivity.findViewById(R.id.list);
-                    ListAdapter adapter = new ListAdapter(thisActivity, mStrings);
-                    if (lv != null) lv.setAdapter(adapter);
+                    ListAdapter adapter = new ListAdapter(thisActivity, exercises);
+                    if (lv != null) {
+                        lv.setAdapter(adapter);
+                        cancel(false /* mayInterruptIfRunning */);
+                    }
                 }
             }
         }.execute("https://healthtec.herokuapp.com/api/v1/exercises/?client-id=1", "ken.poon@dotcus.com", "12345");
