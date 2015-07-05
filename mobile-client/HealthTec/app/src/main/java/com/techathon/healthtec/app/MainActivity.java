@@ -61,7 +61,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
                     ListView lv = (ListView) thisActivity.findViewById(R.id.list);
                     ListAdapter adapter = new ListAdapter(thisActivity, mStrings);
-                    lv.setAdapter(adapter);
+                    if (lv != null) lv.setAdapter(adapter);
                 }
             }
         }.execute("https://healthtec.herokuapp.com/api/v1/exercises/?client-id=1", "ken.poon@dotcus.com", "12345");
