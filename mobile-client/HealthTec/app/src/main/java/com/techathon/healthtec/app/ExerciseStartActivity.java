@@ -9,14 +9,22 @@ package com.techathon.healthtec.app;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.*;
 import com.techathon.healthtec.model.Exercise;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import java.text.DecimalFormat;
 
 public class ExerciseStartActivity extends ActionBarActivity {
 	public static final String EXTRA_CURRENT_EXERCISE = "currentExercise";
+	private Long startTime;
+	private Handler handler = new Handler();
 	ImageButton playButton,stopButton;
 	Exercise currentExercise;
 
@@ -29,6 +37,11 @@ public class ExerciseStartActivity extends ActionBarActivity {
 		playButton =(ImageButton)findViewById(R.id.play_button);
 		stopButton =(ImageButton)findViewById(R.id.stop_button);
 
+		startTime = System.currentTimeMillis();
+		handler.removeCallbacks(updateTimer);
+		handler.postDelayed(updateTimer, 1000);
+		playButton = (ImageButton) findViewById(R.id.play_button);
+		stopButton = (ImageButton) findViewById(R.id.stop_button);
 	}
 
 	@Override
@@ -52,4 +65,19 @@ public class ExerciseStartActivity extends ActionBarActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
+
+	private Runnable updateTimer = new Runnable() {
+		public void run(){
+			final TextView time = (TextView) findViewById(R.id.textView);
+			Long spentTime = System.currentTimeMillis() - startTime;
+			DecimalFormat formatter = new DecimalFormat("##");
+			formatter.applyPattern("00");
+			String hour = formatter.format(spentTime/1000 % (60 * 60));
+			String mins = formatter.format((spentTime/1000)/60);
+			String seconds = formatter.format(spentTime/1000 % 60);
+			time.setText(hour+":"+mins+":"+seconds);
+			handler.postDelayed(this, 1000);;
+		}
+	};
+
 }
