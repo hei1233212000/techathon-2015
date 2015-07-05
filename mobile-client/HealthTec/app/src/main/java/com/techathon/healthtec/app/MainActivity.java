@@ -10,7 +10,6 @@ package com.techathon.healthtec.app;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.job.JobInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Context;
@@ -56,7 +55,6 @@ import java.io.InputStream;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     ListView listView;
-    private JobInfo.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,15 +135,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 
        // b.setClickable(false);
-        new RestfulGetActivity() {
+      /*  new RestfulGetActivity() {
             @Override
             public void onPostExecute(String results) {
                 if (results != null) {
+                    log.e("Here Result:",results);
                   //  EditText et = (EditText) findViewById(R.id.my_edit);
                   //  et.setText(results);
                 }
             }
-        }.execute("https://api-us.clusterpoint.com/100390/Sportiform", "ken.poon@dotcus.com", "12345");
+        }.execute("https://api-us.clusterpoint.com/100390/_retrieve.json", "ken.poon@dotcus.com", "12345");*/
     }
 
     @Override
