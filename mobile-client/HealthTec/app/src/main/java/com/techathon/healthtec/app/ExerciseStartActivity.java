@@ -7,13 +7,19 @@
  */
 package com.techathon.healthtec.app;
 
+import android.content.Context;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.techathon.healthtec.location.MyCurrentLocationListener;
 
 import java.text.DecimalFormat;
 
@@ -21,15 +27,34 @@ public class ExerciseStartActivity extends ActionBarActivity {
 	private Long startTime;
 	private Handler handler = new Handler();
 	ImageButton playButton,stopButton;
+	LocationManager locationManager = null;
+	MyCurrentLocationListener locationListener = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_exercise_start);
-		startTime = System.currentTimeMillis();
-		handler.removeCallbacks(updateTimer);
-		handler.postDelayed(updateTimer, 1000);
 		playButton = (ImageButton) findViewById(R.id.play_button);
 		stopButton = (ImageButton) findViewById(R.id.stop_button);
+		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		locationListener = new MyCurrentLocationListener();
+		playButton.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				startTime = System.currentTimeMillis();
+				handler.removeCallbacks(updateTimer);
+				handler.postDelayed(updateTimer, 1000);
+				//check by gps
+				locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+			}
+		});
+
+		stopButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				handler.removeCallbacks(updateTimer);
+				locationManager.removeUpdates(locationListener);
+			}
+		});
 	}
 
 	@Override
@@ -60,7 +85,7 @@ public class ExerciseStartActivity extends ActionBarActivity {
 			Long spentTime = System.currentTimeMillis() - startTime;
 			DecimalFormat formatter = new DecimalFormat("##");
 			formatter.applyPattern("00");
-			String hour = formatter.format(spentTime/1000 % (60 * 60));
+			String hour = formatter.format(spentTime/1000/60/60);
 			String mins = formatter.format((spentTime/1000)/60);
 			String seconds = formatter.format(spentTime/1000 % 60);
 			time.setText(hour+":"+mins+":"+seconds);
