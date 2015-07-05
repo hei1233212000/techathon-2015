@@ -88,9 +88,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void blackgroundJob(){
         NotificationManager NM;
         NM=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notify=new Notification(android.R.drawable.stat_notify_more,"Testing Titile",System.currentTimeMillis());
+        Notification notify=new Notification(android.R.drawable.stat_notify_more,"MediCise",System.currentTimeMillis());
         PendingIntent pending=PendingIntent.getActivity(getApplicationContext(), 0, new Intent(),0);
-        notify.setLatestEventInfo(getApplicationContext(), "Testing Subject", "Testing Body",pending);
+        notify.setLatestEventInfo(getApplicationContext(), "MediCise reminder", "Dr.Chan reminds you to have a run now.",pending);
 
         Timer timer = new Timer();
 
@@ -102,7 +102,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 NM=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
                 Notification notify=new Notification(android.R.drawable.stat_notify_more,"Testing Titile",System.currentTimeMillis());
                 PendingIntent pending=PendingIntent.getActivity(getApplicationContext(), 0, new Intent(),0);
-                notify.setLatestEventInfo(getApplicationContext(), "Testing Subject", "Testing Body", pending);
+                notify.setLatestEventInfo(getApplicationContext(), "MediCise reminder", "Dr.Chan reminds you to have a run now.", pending);
                 NM.notify(i, notify);
                 i++;
             }
