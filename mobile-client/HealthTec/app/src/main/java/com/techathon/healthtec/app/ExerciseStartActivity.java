@@ -7,17 +7,23 @@
  */
 package com.techathon.healthtec.app;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class ExerciseStartActivity extends ActionBarActivity {
-
+	private Long startTime;
+	private Handler handler = new Handler();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_exercise_start);
+		startTime = System.currentTimeMillis();
+		handler.removeCallbacks(updateTimer);
+		handler.postDelayed(updateTimer, 1000);
 	}
 
 	@Override
@@ -41,4 +47,17 @@ public class ExerciseStartActivity extends ActionBarActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
+
+	private Runnable updateTimer = new Runnable() {
+		public void run(){
+			final TextView time = (TextView) findViewById(R.id.text);
+			Long spentTime = System.currentTimeMillis() - startTime;
+			Long hour = (spentTime/1000);
+			Long mins = (spentTime/1000)/60;
+			Long seconds = (spentTime/1000) % 60;
+			time.setText(hour+":"+mins+":"+seconds);
+			handler.postDelayed(this, 1000);;
+		}
+	};
+
 }
