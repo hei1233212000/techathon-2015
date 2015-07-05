@@ -90,7 +90,7 @@ public class RestfulPutActivity extends AsyncTask<String, Void, String> {
                 String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
                 httpPut.addHeader("Authorization", "Basic " + base64EncodedCredentials);
             }
-            httpPut.setEntity(new StringEntity(postObject.toString(), "UTF-8"));
+            httpPut.setEntity(new StringEntity(postObject, "UTF-8"));
             HttpResponse response = httpClient.execute(httpPut, localContext);
             HttpEntity entity = response.getEntity();
             text = getASCIIContentFromEntity(entity);

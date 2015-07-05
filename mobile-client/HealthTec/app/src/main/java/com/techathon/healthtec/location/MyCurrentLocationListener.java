@@ -2,9 +2,7 @@ package com.techathon.healthtec.location;
 
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -29,7 +27,7 @@ public class MyCurrentLocationListener implements LocationListener {
         String myLocation = "Latitude = " + location.getLatitude() + " Longitude = " + location.getLongitude();
         locationRecordList.add(location);
         //I make a log to see the results
-        Log.e("MY CURRENT LOCATION", "add location: " + myLocation);
+        //Log.e("MY CURRENT LOCATION", "add location: " + myLocation);
 
     }
 

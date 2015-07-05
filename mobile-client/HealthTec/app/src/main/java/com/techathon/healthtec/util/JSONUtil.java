@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Paptimus on 4/7/2015.
  */
 public class JSONUtil {
-    public String ObjectToJSON(Object object) {
+    public static String ObjectToJSON(Object object) {
         Gson gson = new Gson();
         return gson.toJson(object);
     }
